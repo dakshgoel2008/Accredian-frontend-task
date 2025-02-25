@@ -9,6 +9,7 @@ const ReferralForm = ({ onClose }) => {
         refereePhone: "",
         referrerEmail: "",
         referrerName: "",
+        courseName: "",
     });
 
     const [errors, setErrors] = useState({});
@@ -20,11 +21,13 @@ const ReferralForm = ({ onClose }) => {
 
     const validateForm = () => {
         const newErrors = {};
-        if (!formData.referrerName) newErrors.refereeName = "Referrer Name is required";
-        if (!formData.referrerName) newErrors.refereeName = "Referrer Name is required";
+        if (!formData.referrerName) newErrors.referrerName = "Referrer Name is required";
+        if (!formData.referrerEmail) newErrors.referrerEmail = "Referrer Email is required";
         if (!formData.refereeName) newErrors.refereeName = "Referee Name is required";
         if (!formData.refereeEmail) newErrors.refereeEmail = "Referee Email is required";
-        if (!formData.refereePhone) newErrors.refereePhone = "Referee Phone is required"; // Fixed typo
+        if (!formData.refereePhone) newErrors.refereePhone = "Referee Phone is required";
+        if (!formData.courseName) newErrors.courseName = "Course Name is required";
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -40,6 +43,7 @@ const ReferralForm = ({ onClose }) => {
                 name: formData.refereeName,
                 email: formData.refereeEmail,
                 phone: formData.refereePhone,
+                courseName: formData.courseName,
             };
 
             const response = await axios.post("http://localhost:4444/api/referrals", payload, {
@@ -55,10 +59,21 @@ const ReferralForm = ({ onClose }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold", marginBottom: "20px" }}>
-                Refer a Friend
+            <Typography
+                variant="h5"
+                gutterBottom
+                sx={{
+                    fontWeight: "bold",
+                    color: "#d10760",
+                    textAlign: "center",
+                    marginBottom: "20px",
+                }}
+            >
+                Refer a Course 🚀
             </Typography>
-            <Stack spacing={3}>
+
+            <Stack spacing={2}>
+                {/* Form Fields */}
                 <TextField
                     label="Referrer's Name"
                     name="referrerName"
@@ -67,10 +82,11 @@ const ReferralForm = ({ onClose }) => {
                     fullWidth
                     error={!!errors.referrerName}
                     helperText={errors.referrerName}
+                    sx={{ borderRadius: "8px" }}
                 />
 
                 <TextField
-                    label="Referee's Email"
+                    label="Referrer's Email"
                     name="referrerEmail"
                     value={formData.referrerEmail}
                     onChange={handleChange}
@@ -88,6 +104,7 @@ const ReferralForm = ({ onClose }) => {
                     error={!!errors.refereeName}
                     helperText={errors.refereeName}
                 />
+
                 <TextField
                     label="Referee's Email"
                     name="refereeEmail"
@@ -97,17 +114,45 @@ const ReferralForm = ({ onClose }) => {
                     error={!!errors.refereeEmail}
                     helperText={errors.refereeEmail}
                 />
+
                 <TextField
                     label="Referee's Phone"
-                    name="refereePhone" // Fixed field name
-                    value={formData.refereePhone} // Fixed state reference
+                    name="refereePhone"
+                    value={formData.refereePhone}
                     onChange={handleChange}
                     fullWidth
-                    error={!!errors.refereePhone} // Fixed error reference
-                    helperText={errors.refereePhone} // Fixed helper text reference
+                    error={!!errors.refereePhone}
+                    helperText={errors.refereePhone}
                 />
-                <Button type="submit" variant="contained" color="success" size="large" fullWidth>
-                    Submit
+
+                <TextField
+                    label="Enter Course Name"
+                    name="courseName"
+                    value={formData.courseName}
+                    onChange={handleChange}
+                    fullWidth
+                    error={!!errors.courseName}
+                    helperText={errors.courseName}
+                />
+
+                <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{
+                        backgroundColor: "#d10760",
+                        color: "#fff",
+                        padding: "12px",
+                        fontSize: "16px",
+                        borderRadius: "30px",
+                        fontWeight: "bold",
+                        "&:hover": {
+                            backgroundColor: "#a1054a",
+                            transform: "scale(1.05)",
+                            transition: "0.3s",
+                        },
+                    }}
+                >
+                    Submit Referral ✅
                 </Button>
             </Stack>
         </form>
