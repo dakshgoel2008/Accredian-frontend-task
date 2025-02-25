@@ -46,7 +46,7 @@ const ReferralForm = ({ onClose }) => {
                 courseName: formData.courseName,
             };
 
-            const response = await axios.post("http://localhost:4444/api/referrals", payload, {
+            const response = await axios.post("http://localhost:4444/referrals", payload, {
                 headers: { "Content-Type": "application/json" },
             });
 
