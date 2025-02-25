@@ -6,7 +6,7 @@ const ReferralForm = ({ onClose }) => {
     const [formData, setFormData] = useState({
         refereeName: "",
         refereeEmail: "",
-        refereePhone: "", // Fixed typo (was refreePhone)
+        refereePhone: "",
     });
 
     const [errors, setErrors] = useState({});
@@ -30,11 +30,20 @@ const ReferralForm = ({ onClose }) => {
         if (!validateForm()) return;
 
         try {
-            const response = await axios.post("http://localhost:4444/api/referrals", formData);
+            const payload = {
+                name: formData.refereeName,
+                email: formData.refereeEmail,
+                phone: formData.refereePhone,
+            };
+
+            const response = await axios.post("http://localhost:4444/api/referrals", payload, {
+                headers: { "Content-Type": "application/json" },
+            });
+
             console.log("Referral submitted:", response.data);
-            onClose(); // Close the modal after submission
+            onClose();
         } catch (error) {
-            console.error("Error submitting referral:", error);
+            console.error("Error submitting referral:", error.response?.data || error.message);
         }
     };
 
