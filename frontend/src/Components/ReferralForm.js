@@ -7,6 +7,8 @@ const ReferralForm = ({ onClose }) => {
         refereeName: "",
         refereeEmail: "",
         refereePhone: "",
+        referrerEmail: "",
+        referrerName: "",
     });
 
     const [errors, setErrors] = useState({});
@@ -18,6 +20,8 @@ const ReferralForm = ({ onClose }) => {
 
     const validateForm = () => {
         const newErrors = {};
+        if (!formData.referrerName) newErrors.refereeName = "Referrer Name is required";
+        if (!formData.referrerName) newErrors.refereeName = "Referrer Name is required";
         if (!formData.refereeName) newErrors.refereeName = "Referee Name is required";
         if (!formData.refereeEmail) newErrors.refereeEmail = "Referee Email is required";
         if (!formData.refereePhone) newErrors.refereePhone = "Referee Phone is required"; // Fixed typo
@@ -31,6 +35,8 @@ const ReferralForm = ({ onClose }) => {
 
         try {
             const payload = {
+                referrerName: formData.referrerName,
+                referrerEmail: formData.referrerEmail,
                 name: formData.refereeName,
                 email: formData.refereeEmail,
                 phone: formData.refereePhone,
@@ -53,6 +59,26 @@ const ReferralForm = ({ onClose }) => {
                 Refer a Friend
             </Typography>
             <Stack spacing={3}>
+                <TextField
+                    label="Referrer's Name"
+                    name="referrerName"
+                    value={formData.referrerName}
+                    onChange={handleChange}
+                    fullWidth
+                    error={!!errors.referrerName}
+                    helperText={errors.referrerName}
+                />
+
+                <TextField
+                    label="Referee's Email"
+                    name="referrerEmail"
+                    value={formData.referrerEmail}
+                    onChange={handleChange}
+                    fullWidth
+                    error={!!errors.referrerEmail}
+                    helperText={errors.referrerEmail}
+                />
+
                 <TextField
                     label="Referee's Name"
                     name="refereeName"
